@@ -58,36 +58,36 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     """
     # TODO: Implement function
     
-    layer_7_out = tf.layers.conv2d(vgg_layer7_out, num_classes, 1, 
+    layer_7 = tf.layers.conv2d(vgg_layer7_out, num_classes, 1, 
                                        padding= 'same',
                                        kernel_initializer= tf.random_normal_initializer(stddev=0.01),
                                        kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3)) 
     
-    layer_4_input = tf.layers.conv2d_transpose(layer_7_out, num_classes, 4, 
+    layer_4 = tf.layers.conv2d_transpose(layer_7, num_classes, 4, 
                                                  strides= (2, 2), 
                                                  padding= 'same',
                                                  kernel_initializer= tf.random_normal_initializer(stddev=0.01),
                                                  kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3))
     
-    layer_4_conv_input = tf.layers.conv2d(vgg_layer4_out, num_classes, 1, 
+    layer_4_conv = tf.layers.conv2d(vgg_layer4_out, num_classes, 1, 
                                        padding= 'same', 
                                        kernel_initializer= tf.random_normal_initializer(stddev=0.01),
                                        kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3))
 
-    layer_4_out = tf.add(layer_4_input, layer_4_conv_input)
+    layer_4_out = tf.add(layer_4, layer_4_conv)
 
-    layer_3_input = tf.layers.conv2d_transpose(layer_4_out, num_classes, 4, 
+    layer_3 = tf.layers.conv2d_transpose(layer_4_out, num_classes, 4, 
                                                  strides= (2, 2), 
                                                  padding= 'same',  
                                                  kernel_initializer= tf.random_normal_initializer(stddev=0.01),
                                                  kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3))
     
-    layer_3_conv_input = tf.layers.conv2d(vgg_layer3_out, num_classes, 1, 
+    layer_3_conv = tf.layers.conv2d(vgg_layer3_out, num_classes, 1, 
                                        padding= 'same', 
                                        kernel_initializer= tf.random_normal_initializer(stddev=0.01),
                                        kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3))
 
-    layer_3_out = tf.add(layer_3_input,layer_3_conv_input)
+    layer_3_out = tf.add(layer_3,layer_3_conv)
 
     nn_output = tf.layers.conv2d_transpose(layer_3_out, num_classes, 8,  
                                                    strides= (8, 8), 
